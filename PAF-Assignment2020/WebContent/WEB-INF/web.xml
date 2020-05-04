@@ -11,6 +11,8 @@
 	<servlet-name>Jersey Web Application</servlet-name>
 		<url-pattern>/adminService/*</url-pattern> 
 		<url-pattern>/dRedirectUpdate/*</url-pattern>
+		<url-pattern>/pharmacistService/*</url-pattern>
+		<url-pattern>/pRedirectUpdate/*</url-pattern>
 	</servlet-mapping>
 	
 
