@@ -1,6 +1,6 @@
 # PAF-ASSIGNMENT
 
-First you must import the db and make the connection with database. next you can run the the project. 
+First you must import the db and make the connection with database (database name is paf-assignment). next you can run the the project. 
 1.Go to admin login.
 2.Give Admin code(AD001) and password(123456)
 3.Then it go to Admin home page
