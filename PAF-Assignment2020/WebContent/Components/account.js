@@ -180,7 +180,7 @@ function validateItemForm()
 	// password------------------------
 	if ($("#Password").val().trim() == "")
 	{
-		return "Insert Pharmacist Password.";
+		return "Insert accontant Password.";
 	}
 	
 	return true;
