@@ -2,16 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<%
-	//Insert item---------------------------------
-	if (request.getParameter("Pcode") != null) { //`PID`,`Pcode`,`PName`,`PNIC`,`PhoneNo`,`Email`,`Address`,`Password`
-		PharmacistRegister itemObj = new PharmacistRegister();
-		String stsMsg = itemObj.insertItem(request.getParameter("Pcode"), request.getParameter("PName"),
-				request.getParameter("PNIC"), request.getParameter("PhoneNo"), request.getParameter("Email"),
-				request.getParameter("Address"), request.getParameter("Password"));
-		session.setAttribute("statusMsg", stsMsg);
-	}
-%>
 
 <!DOCTYPE html>
 <html>
@@ -40,6 +30,10 @@
 
 <!-- Main CSS-->
 <link href="./css/adminreg.css" rel="stylesheet" media="all">
+
+<link rel="stylesheet" href="Views/bootstrap.min.css">
+<script src="Components/jquery-3.2.1.min.js"></script>
+<script src="Components/items.js"></script>
 
 </head>
 <body data-spy="scroll" data-target=".site-navbar-target"
@@ -107,7 +101,8 @@
 					<h2 class="title">Pharmacist Registration Form</h2>
 				</div>
 				<div class="card-body">
-					<form method="POST" action="pharmacistreg.jsp">
+					<form method="POST" action="pharmacistreg.jsp" id="pharmacist_form"
+						name="pharmacist_form">
 						<div class="form-row m-b-55">
 							<div class="name">Pharmacist Code</div>
 							<div class="value">
@@ -177,19 +172,25 @@
 						</div>
 
 						<div>
-							<button class="btn btn--radius-2 btn--red" type="submit"
+							<button class="btn btn--radius-2 btn--red" type="button"
 								value="Save">Register</button>
+							<input type="hidden" id="hidPIDSave" name="hidPIDSave" value="">
 
 							<a class="btn btn-primary" href="adminHome.html" role="button">Go
 								To Admin Home Page</a>
 
 						</div>
 					</form>
-					<%
-						out.print(session.getAttribute("statusMsg"));
-					%>
+					<div id="alertSuccess" class="alert alert-success"></div>
+					<div id="alertError" class="alert alert-danger"></div>
 					<br>
 
+					<div id="divItemsGrid">
+						<%
+							PharmacistRegister phobj = new PharmacistRegister();
+						out.print(phobj.readItems());
+						%>
+					</div>
 				</div>
 			</div>
 		</div>

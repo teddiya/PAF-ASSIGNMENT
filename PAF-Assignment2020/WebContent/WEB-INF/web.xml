@@ -20,6 +20,15 @@
 		<url-pattern>/aRedirectUpdate/*</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>PharmacistAPI</servlet-name>
+		<servlet-class>PharmacistAPI</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>PharmacistAPI</servlet-name>
+		<url-pattern>/PharmacistAPI</url-pattern>
+	</servlet-mapping>
 
 
 	<welcome-file-list>
