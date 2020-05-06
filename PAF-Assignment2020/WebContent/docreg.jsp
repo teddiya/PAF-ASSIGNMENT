@@ -10,7 +10,7 @@
 
 <link rel="stylesheet" href="Views/bootstrap.min.css">
 <script src="Components/jquery-3.2.1.min.js"></script>
-<script src="Components/pharmacist.js"></script>
+<script src="Components/doctor.js"></script>
 
 </head>
 <body>
@@ -20,21 +20,21 @@
 				<h1>Doctor Management</h1>
 
 				<form id="formItem" name="formItem" method="post"
-					action="pharmacistreg.jsp">
+					action="docreg.jsp">
 
-					Doctor Code: <input id="Pcode" name="Pcode" type="text"
-						class="form-control form-control-sm"> <br> 
-					Doctor Name: <input id="PName" name="PName" type="text"
-						class="form-control form-control-sm"> <br> 
-					Doctor NIC No: <input id="PNIC" name="PNIC" type="text"
-						class="form-control form-control-sm"> <br> 
-					Doctor Phone No: <input id="PhoneNo" name="PhoneNo" type="text"
-						class="form-control form-control-sm"> <br> 
-					Doctor Email: <input id="Email" name="Email" type="text"
-						class="form-control form-control-sm"> <br> 
-					Doctor Address: <input id="Address" name="Address" type="text"
-						class="form-control form-control-sm"> <br> 
-					Doctor Password: <input id="Password" name="Password" type="text"
+					Doctor Code: <input id="DocLNo" name="DocLNo" type="text"
+						class="form-control form-control-sm"> <br> Doctor
+					Name: <input id="Name" name="Name" type="text"
+						class="form-control form-control-sm"> <br> Doctor NIC
+					No: <input id="NIC" name="NIC" type="text"
+						class="form-control form-control-sm"> <br> Doctor
+					Phone No: <input id="PhoneNo" name="PhoneNo" type="text"
+						class="form-control form-control-sm"> <br> Doctor
+					Email: <input id="Email" name="Email" type="text"
+						class="form-control form-control-sm"> <br> Doctor
+					Address: <input id="Address" name="Address" type="text"
+						class="form-control form-control-sm"> <br> Doctor
+					Password: <input id="Password" name="Password" type="text"
 						class="form-control form-control-sm"> <br> <input
 						id="btnSave" name="btnSave" type="button" value="Register"
 						class="btn btn-primary"> <a class="btn btn-danger"
@@ -48,7 +48,7 @@
 
 				<div id="divItemsGrid">
 					<%
-					DoctorRegister itemObj = new DoctorRegister();
+						DoctorRegister itemObj = new DoctorRegister();
 					out.print(itemObj.readItems());
 					%>
 				</div>

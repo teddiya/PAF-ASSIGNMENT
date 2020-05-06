@@ -14,15 +14,14 @@ public class DoctorRegister {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			// Provide the correct details: DBServer/DBName, username, password
-			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/healthcare", "root", "");
+			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/paf-assignment", "root", "");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return con;
 	}
 
-	public String insertItem(String Lcode, String name, String nic, String phone, String email, String address,
-			String speacilist, String workxp, String pass) {
+	public String insertItem(String Lcode, String name, String nic, String phone, String email, String address,String pass) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -30,8 +29,8 @@ public class DoctorRegister {
 				return "Error while connecting to the database for inserting.";
 			}
 			// create a prepared statement
-			String query = " insert into doctor(`DocID`,`DocLNo`,`Name`,`NIC`,`PhoneNo`,`Email`,`Address`,`DocSpeacialist`,`WorkingXp`,`Password`)"
-					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String query = " insert into doctor(`DocID`,`DocLNo`,`Name`,`NIC`,`PhoneNo`,`Email`,`Address`,`Password`)"
+					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			preparedStmt.setInt(1, 0);
@@ -41,9 +40,7 @@ public class DoctorRegister {
 			preparedStmt.setInt(5, Integer.parseInt(phone));
 			preparedStmt.setString(6, email);
 			preparedStmt.setString(7, address);
-			preparedStmt.setString(8, speacilist);
-			preparedStmt.setString(9, workxp);
-			preparedStmt.setString(10, pass);
+			preparedStmt.setString(8, pass);
 
 			// execute the statement
 			preparedStmt.execute();
@@ -69,7 +66,7 @@ public class DoctorRegister {
 			}
 			// Prepare the html table to be displayed
 			output = "<table border=\"2\"><tr><th>Doctor LicenNO</th><th>Name</th><th>NIC NO</th><th>Phone No</th><th>Emaill</th>"
-					+ "<th>Address</th><th>Speacilist For</th><th>Working Xp</th><th>Password</th><th>Update</th><th>Remove</th></tr>";
+					+ "<th>Address</th><th>Password</th><th>Update</th><th>Remove</th></tr>";
 			String query = "select * from doctor";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -82,8 +79,6 @@ public class DoctorRegister {
 				String PhoneNo = Integer.toString(rs.getInt("PhoneNo"));
 				String Email = rs.getString("Email");
 				String Address = rs.getString("Address");
-				String DocSpeacialist = rs.getString("DocSpeacialist");
-				String WorkingXp = rs.getString("WorkingXp");
 				String Password = rs.getString("Password");
 				// Add into the html table
 				output += "<tr><td>" + DocLNo + "</td>";
@@ -92,8 +87,6 @@ public class DoctorRegister {
 				output += "<td>" + PhoneNo + "</td>";
 				output += "<td>" + Email + "</td>";
 				output += "<td>" + Address + "</td>";
-				output += "<td>" + DocSpeacialist + "</td>";
-				output += "<td>" + WorkingXp + "</td>";
 				output += "<td>" + Password + "</td>";
 				// buttons
 				output += "<td><input name='btnUpdate'type='button' "
@@ -116,7 +109,7 @@ public class DoctorRegister {
 	}
 
 	public String updateItem(String ID, String Lcode, String name, String nic, String phone, String email,
-			String address, String speacilist, String workxp, String pass) {
+			String address, String pass) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -124,7 +117,7 @@ public class DoctorRegister {
 				return "Error while connecting to the database for updating.";
 			}
 			// create a prepared statement
-			String query = "UPDATE doctor SET DocLNo=?,Name=?,NIC=?,PhoneNo=?,Email=?,Address=?,DocSpeacialist=?,WorkingXp=?,Password=?WHERE DocID=?";
+			String query = "UPDATE doctor SET DocLNo=?,Name=?,NIC=?,PhoneNo=?,Email=?,Address=?,Password=?WHERE DocID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			preparedStmt.setString(1, Lcode);
@@ -133,8 +126,6 @@ public class DoctorRegister {
 			preparedStmt.setInt(4, Integer.parseInt(phone));
 			preparedStmt.setString(5, email);
 			preparedStmt.setString(6, address);
-			preparedStmt.setString(7, speacilist);
-			preparedStmt.setString(8, workxp);
 			preparedStmt.setString(9, pass);
 			preparedStmt.setInt(10, Integer.parseInt(ID));
 			// execute the statement
