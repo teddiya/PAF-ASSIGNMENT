@@ -14,7 +14,7 @@ public class accountantRegister {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			// Provide the correct details: DBServer/DBName, username, password
-			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/healthcare", "root", "");
+			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/paf-assignment", "root", "");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -46,13 +46,17 @@ public class accountantRegister {
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
-			output = "Inserted successfully";
-		} catch (Exception e) {
-			output = "Error while inserting the item.";
-			System.err.println(e.getMessage());
+			String newItems = readItems();
+			output = "{\"status\":\"success\", \"data\": \"" +newItems + "\"}";
+		}
+			catch (Exception e)
+		{
+				output = "{\"status\":\"error\", \"data\": \"Error while inserting the item.\"}";
+				System.err.println(e.getMessage());
 		}
 		return output;
-	}
+		}
+
 
 	public String readItems() {
 		String output = "";
@@ -86,22 +90,23 @@ public class accountantRegister {
 				output += "<td>" + Address + "</td>";
 				output += "<td>" + Password + "</td>";
 				// buttons
-				output += "<td><button type=\"button\" class=\"btn update_btn btn-primary\" data-toggle=\"modal\" data-target=\"#myModal\" data-id=\""
-						+ AID + "\" data-todo='{\"Acode\":\"" + Acode + "\"," + "\"AName\":\"" + AName
-						+ "\",\"ANIC\":\"" + ANIC + "\",\"PhoneNo\":\"" + PhoneNo + "\",\"Email\":\"" + Email
-						+ "\",\"Address\":\"" + Address + "\",\"Password\":\"" + Password + "\"}'>Update</button></td>"
-						+ "<td><form method=\"post\" action=\"accountantdet.jsp\">"
-						+ "<input name=\"btnRemove\" type=\"submit\" value=\"Remove\"class=\"btn btn-danger\">"
-						+ "<input name=\"AID\" type=\"hidden\" value=\"" + AID + "\">" + "</form></td></tr>";
+				output += "<td><input name='btnUpdate'type='button' "
+						+ "value='Update'class='btnUpdate btn btn-secondary'></td>"
+						+ "<td><input name='btnRemove'type='button' "
+						+ "value='Remove'class='btnRemove btn btn-danger'data-itemid='"+ AID + "'>" + "</td></tr>";
 			}
+			
 			con.close();
-			// Complete the html table.
+			// Complete the html table
 			output += "</table>";
-		} catch (Exception e) {
-			output = "Error while reading the items.";
-			System.err.println(e.getMessage());
-		}
-		return output;
+			}
+			catch (Exception e){
+				output = "Error while reading the items.";
+				System.err.println(e.getMessage());
+			}
+			
+	return output;
+	
 	}
 
 	public String updateItem(String ID, String acode, String name, String nic, String phone, String email,
@@ -127,9 +132,10 @@ public class accountantRegister {
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
-			output = "Updated successfully";
+			String newItems = readItems();
+			output = "{\"status\":\"success\", \"data\": \"" + newItems + "\"}";;
 		} catch (Exception e) {
-			output = "Error while updating the item.";
+			output = "{\"status\":\"error\", \"data\": \"Error while updating the item.\"}";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -150,9 +156,10 @@ public class accountantRegister {
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
-			output = "Deleted successfully";
+			String newItems = readItems();
+			output = "{\"status\":\"success\", \"data\": \"" + newItems + "\"}";
 		} catch (Exception e) {
-			output = "Error while deleting the item.";
+			output = "{\"status\":\"error\", \"data\": \"Error while deleting the item.\"}";
 			System.err.println(e.getMessage());
 		}
 		return output;
