@@ -49,7 +49,7 @@ function onItemSaveComplete(response, status)
 		//if (resultSet.status.trim() == "success")
 	//	{
 			console.log('trim success');
-			$("#alertSuccess").text("Successfully Registerd Accountant.");
+			$("#alertSuccess").text("Successfully Registerd Accontant.");
 			$("#alertSuccess").show();
 			//$("#divItemsGrid").html(resultSet.data);
 			$("#divItemsGrid").load(" #divItemsGrid > *");
@@ -114,7 +114,7 @@ function onItemDeleteComplete(response, status)
 		
 		//if (resultSet.status.trim() == "success")
 		//{
-			$("#alertSuccess").text("Successfully deleted Accountant.");
+			$("#alertSuccess").text("Successfully deleted Accontant.");
 			$("#alertSuccess").show();
 			$("#divItemsGrid").load(" #divItemsGrid > *");
 			
@@ -144,43 +144,43 @@ function validateItemForm()
 	// CODE
 	if ($("#Acode").val().trim() == "")
 	{
-		return "Insert Accountant Code.";
+		return "Insert accontant Code.";
 	}
 	
 	// NAME
 	if ($("#AName").val().trim() == "")
 	{
-		return "Insert Accountant Name.";
+		return "Insert accontant Name.";
 	}
 	
 	//nic-------------------------------
 	if ($("#ANIC").val().trim() == "")
 	{
-		return "Insert Accountant NIC no.";
+		return "Insert accontant NIC no.";
 	}
 	
 	// phone------------------------
 	if ($("#PhoneNo").val().trim() == "")
 	{
-		return "Insert Accountant Phone No.";
+		return "Insert accontant Phone No.";
 	}
 	
 	// email------------------------
 	if ($("#Email").val().trim() == "")
 	{
-		return "Insert Accountant Email.";
+		return "Insert accontant Email.";
 	}
 	
 	// address------------------------
 	if ($("#Address").val().trim() == "")
 	{
-		return "Insert Accountant Address.";
+		return "Insert accontant Address.";
 	}
 	
 	// password------------------------
 	if ($("#Password").val().trim() == "")
 	{
-		return "Insert Accountant Password.";
+		return "Insert Pharmacist Password.";
 	}
 	
 	return true;
