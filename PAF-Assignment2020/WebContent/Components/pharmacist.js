@@ -6,7 +6,7 @@ $(document).ready(function()
 
 //SAVE ============================================
 $(document).on("click", "#btnSave", function(event)
-{
+{		
 	// Clear alerts---------------------
 	$("#alertSuccess").text("");
 	$("#alertSuccess").hide();
@@ -28,7 +28,7 @@ $(document).on("click", "#btnSave", function(event)
 	
 	$.ajax(
 	{
-		url : "ItemsAPI",
+		url : "pharmacistAPI",
 		type : method,
 		data : $("#formItem").serialize(),
 		dataType : "text",
@@ -40,21 +40,25 @@ $(document).on("click", "#btnSave", function(event)
 });
 
 function onItemSaveComplete(response, status)
-{
+{	
 	if (status == "success")
 	{
-		var resultSet = JSON.parse(response);
-		if (resultSet.status.trim() == "success")
-		{
-			$("#alertSuccess").text("Successfully saved.");
+		//console.log(response);
+		//var resultSet = JSON.parse(response);
+		//console.log(resultSet);
+		//if (resultSet.status.trim() == "success")
+	//	{
+			console.log('trim success');
+			$("#alertSuccess").text("Successfully Registerd Pharmacist.");
 			$("#alertSuccess").show();
-			$("#divItemsGrid").html(resultSet.data);
-		} 
-		else if (resultSet.status.trim() == "error")
-		{
-			$("#alertError").text(resultSet.data);
-			$("#alertError").show();
-		}
+			//$("#divItemsGrid").html(resultSet.data);
+			$("#divItemsGrid").load(" #divItemsGrid > *");
+	//	} 
+	//	else if (resultSet.status.trim() == "error")
+	//	{
+	//		$("#alertError").text(resultSet.data);
+	//		$("#alertError").show();
+	//	}
 	} 
 	else if (status == "error")
 	{
@@ -76,10 +80,13 @@ function onItemSaveComplete(response, status)
 $(document).on("click", ".btnUpdate", function(event)
 {
 	$("#hidItemIDSave").val($(this).closest("tr").find('#hidItemIDUpdate').val());
-	$("#itemCode").val($(this).closest("tr").find('td:eq(0)').text());
-	$("#itemName").val($(this).closest("tr").find('td:eq(1)').text());
-	$("#itemPrice").val($(this).closest("tr").find('td:eq(2)').text());
-	$("#itemDesc").val($(this).closest("tr").find('td:eq(3)').text());
+	$("#Pcode").val($(this).closest("tr").find('td:eq(0)').text());
+	$("#PName").val($(this).closest("tr").find('td:eq(1)').text());
+	$("#PNIC").val($(this).closest("tr").find('td:eq(2)').text());
+	$("#PhoneNo").val($(this).closest("tr").find('td:eq(3)').text());
+	$("#Email").val($(this).closest("tr").find('td:eq(4)').text());
+	$("#Address").val($(this).closest("tr").find('td:eq(5)').text());
+	$("#Password").val($(this).closest("tr").find('td:eq(6)').text());
 });
 
 
@@ -88,9 +95,9 @@ $(document).on("click", ".btnRemove", function(event)
 {
 	$.ajax(
 	{
-		url : "ItemsAPI",
+		url : "pharmacistAPI",
 		type : "DELETE",
-		data : "itemID=" + $(this).data("itemid"),
+		data : "PID=" + $(this).data("itemid"),
 		dataType : "text",
 		complete : function(response, status)
 		{
@@ -103,19 +110,21 @@ function onItemDeleteComplete(response, status)
 {
 	if (status == "success")
 	{
-		var resultSet = JSON.parse(response);
+		//var resultSet = JSON.parse(response);
 		
-		if (resultSet.status.trim() == "success")
-		{
-			$("#alertSuccess").text("Successfully deleted.");
+		//if (resultSet.status.trim() == "success")
+		//{
+			$("#alertSuccess").text("Successfully deleted Pharmacist.");
 			$("#alertSuccess").show();
-			$("#divItemsGrid").html(resultSet.data);
-		} 
-		else if (resultSet.status.trim() == "error")
-		{
-			$("#alertError").text(resultSet.data);
-			$("#alertError").show();
-		}
+			$("#divItemsGrid").load(" #divItemsGrid > *");
+			
+			//$("#divItemsGrid").html(resultSet.data);
+		//} 
+		//else if (resultSet.status.trim() == "error")
+		//{
+			//$("#alertError").text(resultSet.data);
+			//("#alertError").show();
+		//}
 	} 
 	else if (status == "error")
 	{
@@ -133,38 +142,45 @@ function onItemDeleteComplete(response, status)
 function validateItemForm()
 {
 	// CODE
-	if ($("#itemCode").val().trim() == "")
+	if ($("#Pcode").val().trim() == "")
 	{
-		return "Insert Item Code.";
+		return "Insert Pharmacist Code.";
 	}
 	
 	// NAME
-	if ($("#itemName").val().trim() == "")
+	if ($("#PName").val().trim() == "")
 	{
-		return "Insert Item Name.";
+		return "Insert Pharmacist Name.";
 	}
 	
-	//PRICE-------------------------------
-	if ($("#itemPrice").val().trim() == "")
+	//nic-------------------------------
+	if ($("#PNIC").val().trim() == "")
 	{
-		return "Insert Item Price.";
+		return "Insert Pharmacist NIC no.";
 	}
 	
-	// is numerical value
-	var tmpPrice = $("#itemPrice").val().trim();
-	
-	if (!$.isNumeric(tmpPrice))
+	// phone------------------------
+	if ($("#PhoneNo").val().trim() == "")
 	{
-		return "Insert a numerical value for Item Price.";
+		return "Insert Pharmacist Phone No.";
 	}
 	
-	// convert to decimal price
-	$("#itemPrice").val(parseFloat(tmpPrice).toFixed(2));
-	
-	// DESCRIPTION------------------------
-	if ($("#itemDesc").val().trim() == "")
+	// email------------------------
+	if ($("#Email").val().trim() == "")
 	{
-		return "Insert Item Description.";
+		return "Insert Pharmacist Email.";
+	}
+	
+	// address------------------------
+	if ($("#Address").val().trim() == "")
+	{
+		return "Insert Pharmacist Address.";
+	}
+	
+	// password------------------------
+	if ($("#Password").val().trim() == "")
+	{
+		return "Insert Pharmacist Password.";
 	}
 	
 	return true;

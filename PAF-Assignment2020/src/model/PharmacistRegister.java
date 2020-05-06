@@ -23,106 +23,120 @@ public class PharmacistRegister {
 		return con;
 	}
 
-	public String insertItem(String pcode, String name, String nic, String phone, String email, String address,
-			String pass) {
-		String output = "";
-		try {
-			Connection con = connect();
-			if (con == null) {
-				return "Error while connecting to the database for inserting.";
-			}
-			// create a prepared statement
-			String query = " insert into pharmacist(`PID`,`Pcode`,`PName`,`PNIC`,`PhoneNo`,`Email`,`Address`,`Password`)"
-					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
-			PreparedStatement preparedStmt = con.prepareStatement(query);
-			// binding values
-			preparedStmt.setInt(1, 0);
-			preparedStmt.setString(2, pcode);
-			preparedStmt.setString(3, name);
-			preparedStmt.setString(4, nic);
-			preparedStmt.setString(5, phone);
-			preparedStmt.setString(6, email);
-			preparedStmt.setString(7, address);
-			preparedStmt.setString(8, pass);
-
-			// execute the statement
-			preparedStmt.execute();
-			con.close();
-			
-			String newItems = readItems();
-			output = "{\"status\":\"success\", \"data\": \"" +newItems + "\"}";
-		}
-			catch (Exception e)
-		{
-				output = "{\"status\":\"error\", \"data\": \"Error while inserting the item.\"}";
-				System.err.println(e.getMessage());
-		}
-		return output;
-		}
-
-	public String readItems() {
-		String output = "";
-		try {
-			Connection con = connect();
-			if (con == null) {
-				return "Error while connecting to the database for reading.";
-			}
-			// Prepare the html table to be displayed
-			output = "<table border=\"2\"><tr><th>Pharmacist code</th><th>Name</th><th>NIC NO</th><th>Phone No</th><th>Emaill</th>"
-					+ "<th>Address</th><th>Password</th><th>Update</th><th>Remove</th></tr>";
-			String query = "select * from pharmacist";
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			// iterate through the rows in the result set
-			while (rs.next()) {
-				String PID = Integer.toString(rs.getInt("PID"));
-				String Pcode = rs.getString("Pcode");
-				String PName = rs.getString("PName");
-				String PNIC = rs.getString("PNIC");
-				String PhoneNo = rs.getString("PhoneNo");
-				String Email = rs.getString("Email");
-				String Address = rs.getString("Address");
-				String Password = rs.getString("Password");
-
-				// Add into the html table
-				output += "<tr><td><input id='hidPIDUpdate'name='hidPIDUpdate' type='hidden' value='" + PID+ "'>" + Pcode + "</td>";
-				output += "<td>" + PName + "</td>";
-				output += "<td>" + PNIC + "</td>";
-				output += "<td>" + PhoneNo + "</td>";
-				output += "<td>" + Email + "</td>";
-				output += "<td>" + Address + "</td>";
-				output += "<td>" + Password + "</td>";
-				
-				// buttons
-				output += "<td><input name='btnUpdate'type='button' "
-						+ "value='Update'class='btnUpdate btn btn-secondary'></td>"
-						+ "<td><input name='btnRemove'type='button' "
-						+ "value='Remove'class='btnRemove btn btn-danger'data-pid='"+ PID + "'>" + "</td></tr>";
-			}
-			con.close();
-			// Complete the html table
-			output += "</table>";
-			}
-			catch (Exception e){
-				output = "Error while reading the items.";
-				System.err.println(e.getMessage());
-			}
-			
-	return output;
+	//insert-----------------------------------------------------------------------------------------------------------------------------
 	
-	}
+	public String insertItem(String pcode, String name, String nic, String phone, String email, String address,
+			String pass)
+    {
+			String output = "";
+			try
+			{
+				Connection con = connect();
+				if (con == null)
+				{    
+					return "Error while connecting to the database for inserting.";
+				}
+				// create a prepared statement
+				String query = " insert into pharmacist(`PID`,`Pcode`,`PName`,`PNIC`,`PhoneNo`,`Email`,`Address`,`Password`)"
+						+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
+						PreparedStatement preparedStmt = con.prepareStatement(query); 
+				// binding values
+						preparedStmt.setInt(1, 0);
+						preparedStmt.setString(2, pcode);
+						preparedStmt.setString(3, name);
+						preparedStmt.setString(4, nic);
+						preparedStmt.setString(5, phone);
+						preparedStmt.setString(6, email);
+						preparedStmt.setString(7, address);
+						preparedStmt.setString(8, pass);
+	
+				// execute the statement
+				preparedStmt.execute();
+				con.close();
+				
+				String newItems = readItems();
+				output = "{\"status\":\"success\", \"data\": \"" +newItems + "\"}";
+			}
+				catch (Exception e)
+			{
+					output = "{\"status\":\"error\", \"data\": \"Error while inserting the item.\"}";
+					System.err.println(e.getMessage());
+			}
+			return output;
+    		}
+	
 
+	//view------------------------------------------------------------------------------------------------------------------------
+		public String readItems(){
+			
+			String output = "";
+				try{
+				Connection con = connect();
+				
+				if (con == null){
+					return "Error while connecting to the database for reading."; 
+				}
+				// Prepare the html table to be displayed
+				output = "<table border=\"2\"><tr><th>Pharmacist code</th><th>Name</th><th>NIC NO</th><th>Phone No</th><th>Emaill</th>"
+						+ "<th>Address</th><th>Password</th><th>Update</th><th>Remove</th></tr>";
+				
+				String query = "select * from pharmacist";
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				// iterate through the rows in the result set
+				while (rs.next()){
+					
+					String PID = Integer.toString(rs.getInt("PID"));
+					String Pcode = rs.getString("Pcode");
+					String PName = rs.getString("PName");
+					String PNIC = rs.getString("PNIC");
+					String PhoneNo = rs.getString("PhoneNo");
+					String Email = rs.getString("Email");
+					String Address = rs.getString("Address");
+					String Password = rs.getString("Password");
+
+					
+					// Add into the html table
+					output += "<tr><td><input id='hidItemIDUpdate'name='hidItemIDUpdate' type='hidden' value='" + PID+ "'>" + Pcode + "</td>";
+					output += "<td>" + PName + "</td>";
+					output += "<td>" + PNIC + "</td>";
+					output += "<td>" + PhoneNo + "</td>";
+					output += "<td>" + Email + "</td>";
+					output += "<td>" + Address + "</td>";
+					output += "<td>" + Password + "</td>";
+					 // buttons
+					
+					output += "<td><input name='btnUpdate'type='button' "
+							+ "value='Update'class='btnUpdate btn btn-secondary'></td>"
+							+ "<td><input name='btnRemove'type='button' "
+							+ "value='Remove'class='btnRemove btn btn-danger'data-itemid='"+ PID + "'>" + "</td></tr>";
+				}
+				
+				con.close();
+				// Complete the html table
+				output += "</table>";
+				}
+				catch (Exception e){
+					output = "Error while reading the items.";
+					System.err.println(e.getMessage());
+				}
+				
+		return output;
+		
+		}
+	
+//Update--------------------------
+	
 	public String updateItem(String ID, String pcode, String name, String nic, String phone, String email,
 			String address, String pass) {
 		String output = "";
-		System.out.println(ID);
 		try {
 			Connection con = connect();
 			if (con == null) {
 				return "Error while connecting to the database for updating.";
 			}
 			// create a prepared statement
-			String query = "UPDATE pharmacist SET Pcode=?,PName=?,PNIC=?,PhoneNo=?,Email=?,Address=?,Password=?WHERE PID=?";
+			String query =  "UPDATE pharmacist SET Pcode=?,PName=?,PNIC=?,PhoneNo=?,Email=?,Address=?,Password=?WHERE PID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			preparedStmt.setString(1, pcode);
@@ -136,17 +150,20 @@ public class PharmacistRegister {
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
-			output = "Updated successfully";
-
+			
+			String newItems = readItems();
+			output = "{\"status\":\"success\", \"data\": \"" + newItems + "\"}";;
 		} catch (Exception e) {
-			output = "Error while updating the item.";
+			output = "{\"status\":\"error\", \"data\": \"Error while updating the item.\"}";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
 
+	
+//Delete-------------------------------	
 	public String deleteItem(String PID) {
-		System.out.println("p delte");
+		System.out.println(PID);
 		String output = "";
 		try {
 			Connection con = connect();
@@ -161,12 +178,16 @@ public class PharmacistRegister {
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
-			output = "Deleted successfully";
+
+			String newItems = readItems();
+			output = "{\"status\":\"success\", \"data\": \"" + newItems + "\"}";
 		} catch (Exception e) {
-			output = "Error while deleting the item.";
+			output = "{\"status\":\"error\", \"data\": \"Error while deleting the item.\"}";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
+
+	
 
 }
