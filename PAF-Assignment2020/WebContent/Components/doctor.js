@@ -174,7 +174,7 @@ function validateItemForm()
 	// address------------------------
 	if ($("#Address").val().trim() == "")
 	{
-		return "Insert Accountant Address.";
+		return "Insert Doctor Address.";
 	}
 	
 	// password------------------------
