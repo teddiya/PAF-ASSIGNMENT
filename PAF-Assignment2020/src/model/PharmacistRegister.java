@@ -16,7 +16,7 @@ public class PharmacistRegister {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			// Provide the correct details: DBServer/DBName, username, password
-			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/healthcare", "root", "");
+			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/paf-assignment", "root", "");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -48,13 +48,17 @@ public class PharmacistRegister {
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
-			output = "Inserted successfully";
-		} catch (Exception e) {
-			output = "Error while inserting the item.";
-			System.err.println(e.getMessage());
+			
+			String newItems = readItems();
+			output = "{\"status\":\"success\", \"data\": \"" +newItems + "\"}";
+		}
+			catch (Exception e)
+		{
+				output = "{\"status\":\"error\", \"data\": \"Error while inserting the item.\"}";
+				System.err.println(e.getMessage());
 		}
 		return output;
-	}
+		}
 
 	public String readItems() {
 		String output = "";
@@ -79,31 +83,33 @@ public class PharmacistRegister {
 				String Email = rs.getString("Email");
 				String Address = rs.getString("Address");
 				String Password = rs.getString("Password");
+
 				// Add into the html table
-				output += "<tr><td>" + Pcode + "</td>";
+				output += "<tr><td><input id='hidPIDUpdate'name='hidPIDUpdate' type='hidden' value='" + PID+ "'>" + Pcode + "</td>";
 				output += "<td>" + PName + "</td>";
 				output += "<td>" + PNIC + "</td>";
 				output += "<td>" + PhoneNo + "</td>";
 				output += "<td>" + Email + "</td>";
 				output += "<td>" + Address + "</td>";
 				output += "<td>" + Password + "</td>";
+				
 				// buttons
-				output += "<td><button type=\"button\" class=\"btn update_btn btn-primary\" data-toggle=\"modal\" data-target=\"#myModal\" data-id=\""
-						+ PID + "\" data-todo='{\"Pcode\":\"" + Pcode + "\"," + "\"PName\":\"" + PName
-						+ "\",\"PNIC\":\"" + PNIC + "\",\"PhoneNo\":\"" + PhoneNo + "\",\"Email\":\"" + Email
-						+ "\",\"Address\":\"" + Address + "\",\"Password\":\"" + Password + "\"}'>Update</button></td>"
-						+ "<td><form method=\"post\" action=\"pharmacistdet.jsp\">"
-						+ "<input name=\"btnRemove\" type=\"submit\" value=\"Remove\"class=\"btn btn-danger\">"
-						+ "<input name=\"PID\" type=\"hidden\" value=\"" + PID + "\">" + "</form></td></tr>";
+				output += "<td><input name='btnUpdate'type='button' "
+						+ "value='Update'class='btnUpdate btn btn-secondary'></td>"
+						+ "<td><input name='btnRemove'type='button' "
+						+ "value='Remove'class='btnRemove btn btn-danger'data-pid='"+ PID + "'>" + "</td></tr>";
 			}
 			con.close();
 			// Complete the html table
 			output += "</table>";
-		} catch (Exception e) {
-			output = "Error while reading the items.";
-			System.err.println(e.getMessage());
-		}
-		return output;
+			}
+			catch (Exception e){
+				output = "Error while reading the items.";
+				System.err.println(e.getMessage());
+			}
+			
+	return output;
+	
 	}
 
 	public String updateItem(String ID, String pcode, String name, String nic, String phone, String email,
